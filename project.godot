@@ -16,7 +16,7 @@ config/icon="res://icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/orbit_camera/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [physics]
 

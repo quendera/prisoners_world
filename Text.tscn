@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Fonts/IBM_Plex_Mono/IBMPlexMono-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/IBM_Plex_Mono/IBMPlexMono-ExtraLight.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=6]
+size = 50
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 29
+font_data = ExtResource( 2 )
+
+[node name="Text" type="Label"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -253.0
+margin_top = -298.0
+margin_right = 257.0
+margin_bottom = -199.0
+rect_rotation = -0.158866
+rect_scale = Vector2( 0.98483, 1.05104 )
+custom_fonts/font = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="action" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -255.0
+margin_right = 255.0
+margin_bottom = 99.0
+rect_rotation = -0.158866
+rect_scale = Vector2( 0.98483, 1.05104 )
+custom_fonts/font = SubResource( 6 )
+text = "Choose an action!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Move" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -285.0
+margin_right = 285.0
+margin_bottom = 99.0
+rect_rotation = -0.158866
+rect_scale = Vector2( 0.98483, 1.05104 )
+custom_fonts/font = SubResource( 6 )
+text = "Choose a direction!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Choice" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -315.0
+margin_right = 315.0
+margin_bottom = 99.0
+rect_rotation = -0.158866
+rect_scale = Vector2( 0.98483, 1.05104 )
+custom_fonts/font = SubResource( 6 )
+text = "Choose: move or play?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Coop" type="Label" parent="."]
+visible = false
+margin_left = -135.103
+margin_top = 361.198
+margin_right = 17.8974
+margin_bottom = 399.198
+custom_fonts/font = SubResource( 7 )
+text = "Cooperate"
+
+[node name="Defect" type="Label" parent="."]
+visible = false
+margin_left = 467.023
+margin_top = 364.665
+margin_right = 620.023
+margin_bottom = 402.665
+custom_fonts/font = SubResource( 7 )
+text = "Defect"
