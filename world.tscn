@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://default_env.tres" type="Environment" id=1]
 [ext_resource path="res://region.tscn" type="PackedScene" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://Fonts/IBM_Plex_Mono/IBMPlexMono-ExtraLight.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Icons/keyboard_key_d.png" type="Texture" id=12]
 [ext_resource path="res://Icons/keyboard_key_c.png" type="Texture" id=13]
+[ext_resource path="res://Fonts/IBM_Plex_Mono/IBMPlexMono-ExtraLightItalic.ttf" type="DynamicFontData" id=14]
+[ext_resource path="res://Fonts/IBM_Plex_Mono/Coda-Heavy.ttf" type="DynamicFontData" id=15]
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0, 0.203922, 1, 1 )
@@ -26,6 +28,9 @@ albedo_color = Color( 0, 1, 0.0392157, 1 )
 [sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 1, 0.890196, 0, 1 )
 
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 0.419608, 0.027451, 0.501961, 1 )
+
 [sub_resource type="DynamicFont" id=6]
 size = 50
 font_data = ExtResource( 10 )
@@ -33,6 +38,14 @@ font_data = ExtResource( 10 )
 [sub_resource type="DynamicFont" id=7]
 size = 29
 font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 50
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 14 )
+
+[sub_resource type="DynamicFont" id=10]
+font_data = ExtResource( 15 )
 
 [node name="world" type="Spatial"]
 script = ExtResource( 3 )
@@ -55,7 +68,7 @@ transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 1.11926, 0, 0 )
 material = SubResource( 2 )
 
 [node name="Red" parent="planet" groups=["nodes"] instance=ExtResource( 2 )]
-transform = Transform( 0.146744, 0, -0.135891, 0, 0.2, 0, 0.135891, 0, 0.146744, -1.08376, 0, 0 )
+transform = Transform( -8.7423e-09, 0, -0.2, 0, 0.2, 0, 0.2, 0, -8.7423e-09, -1, 0, 0 )
 material = SubResource( 3 )
 
 [node name="Green" parent="planet" groups=["nodes"] instance=ExtResource( 2 )]
@@ -63,8 +76,16 @@ transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 1.04264 )
 material = SubResource( 4 )
 
 [node name="Yellow" parent="planet" groups=["nodes"] instance=ExtResource( 2 )]
-transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, -1.06655 )
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, -1 )
 material = SubResource( 5 )
+
+[node name="Purple2" parent="planet" groups=["nodes"] instance=ExtResource( 2 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -1.02885, -0.0470298 )
+material = SubResource( 9 )
+
+[node name="Purple1" parent="planet" groups=["nodes"] instance=ExtResource( 2 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 1.03536, -0.0470298 )
+material = SubResource( 9 )
 
 [node name="camera" type="Spatial" parent="."]
 script = ExtResource( 4 )
@@ -73,6 +94,7 @@ script = ExtResource( 4 )
 transform = Transform( -0.989681, 0, -0.143285, 0, 1, 0, 0.143285, 0, -0.989681, -0.524644, 0.631394, -4 )
 
 [node name="question_arrows" type="Node2D" parent="."]
+position = Vector2( 245, 151 )
 
 [node name="ArrowRight" type="Sprite" parent="question_arrows"]
 position = Vector2( 200, 325 )
@@ -80,30 +102,30 @@ scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 5 )
 
 [node name="ArrowUp" type="Sprite" parent="question_arrows"]
-position = Vector2( 500, 125 )
+position = Vector2( 525, 125 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 8 )
 
 [node name="ArrowDown" type="Sprite" parent="question_arrows"]
-position = Vector2( 500, 500 )
+position = Vector2( 525, 604 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 6 )
 offset = Vector2( 0, 100 )
 
 [node name="ArrowLeft" type="Sprite" parent="question_arrows"]
-position = Vector2( 790, 325 )
+position = Vector2( 830, 325 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 7 )
 
-[node name="KeyC" type="Sprite" parent="question_arrows"]
-position = Vector2( 790, 324 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 13 )
-
 [node name="KeyD" type="Sprite" parent="question_arrows"]
-position = Vector2( 201, 325 )
+position = Vector2( 199, 326 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 12 )
+
+[node name="KeyC" type="Sprite" parent="question_arrows"]
+position = Vector2( 830, 323 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 13 )
 
 [node name="Text" type="Label" parent="."]
 anchor_left = 0.5
@@ -158,26 +180,32 @@ margin_bottom = 99.0
 rect_rotation = -0.158866
 rect_scale = Vector2( 0.98483, 1.05104 )
 custom_fonts/font = SubResource( 6 )
-text = "Choose: move or play?"
+text = "Choose: MOVE or PLAY?"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Coop" type="Label" parent="Text"]
-margin_left = -135.103
-margin_top = 361.198
-margin_right = 17.8974
-margin_bottom = 399.198
+margin_left = 496.475
+margin_top = 362.838
+margin_right = 649.476
+margin_bottom = 400.838
 custom_fonts/font = SubResource( 7 )
 text = "Cooperate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Defect" type="Label" parent="Text"]
-margin_left = 478.193
-margin_top = 364.694
-margin_right = 631.193
-margin_bottom = 402.694
+margin_left = -117.838
+margin_top = 360.291
+margin_right = 35.162
+margin_bottom = 398.291
 custom_fonts/font = SubResource( 7 )
 text = "Defect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="movechoice" type="Label" parent="Text"]
 margin_left = -105.656
@@ -188,12 +216,50 @@ custom_fonts/font = SubResource( 7 )
 text = "Move"
 
 [node name="actionchoice" type="Label" parent="Text"]
-margin_left = 493.424
-margin_top = 364.734
-margin_right = 646.424
-margin_bottom = 402.734
+margin_left = 520.84
+margin_top = 364.805
+margin_right = 673.84
+margin_bottom = 402.805
 custom_fonts/font = SubResource( 7 )
 text = "Action"
+
+[node name="total_score" type="RichTextLabel" parent="Text"]
+anchor_left = 1.0
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.7
+margin_right = 100.0
+margin_bottom = 100.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/mono_font = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="agents" type="RichTextLabel" parent="Text"]
+anchor_left = 1.0
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.7
+margin_left = 70.0
+margin_top = 100.0
+margin_right = 250.0
+margin_bottom = 200.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/mono_font = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="current_score" type="RichTextLabel" parent="Text"]
+anchor_left = 1.2
+anchor_top = 0.7
+anchor_right = 1.5
+anchor_bottom = 0.7
+margin_left = 50.0
+margin_bottom = 100.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/mono_font = SubResource( 10 )
 
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
