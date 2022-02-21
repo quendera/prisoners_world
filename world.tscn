@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://default_env.tres" type="Environment" id=1]
 [ext_resource path="res://region.tscn" type="PackedScene" id=2]
@@ -14,7 +14,10 @@
 [ext_resource path="res://Icons/keyboard_key_d.png" type="Texture" id=12]
 [ext_resource path="res://Icons/keyboard_key_c.png" type="Texture" id=13]
 [ext_resource path="res://Fonts/IBM_Plex_Mono/IBMPlexMono-ExtraLightItalic.ttf" type="DynamicFontData" id=14]
-[ext_resource path="res://Fonts/IBM_Plex_Mono/Coda-Heavy.ttf" type="DynamicFontData" id=15]
+[ext_resource path="res://Sounds/clapping.mp3" type="AudioStream" id=15]
+[ext_resource path="res://NameInput.gd" type="Script" id=16]
+[ext_resource path="res://Fonts/plex_mono_32.tres" type="DynamicFont" id=17]
+[ext_resource path="res://Fonts/IBM_Plex_Mono/IBMPlexMono-Regular.ttf" type="DynamicFontData" id=18]
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0, 0.203922, 1, 1 )
@@ -39,13 +42,14 @@ font_data = ExtResource( 10 )
 size = 29
 font_data = ExtResource( 11 )
 
+[sub_resource type="DynamicFont" id=11]
+size = 28
+font_data = ExtResource( 18 )
+
 [sub_resource type="DynamicFont" id=8]
 size = 50
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 14 )
-
-[sub_resource type="DynamicFont" id=10]
-font_data = ExtResource( 15 )
 
 [node name="world" type="Spatial"]
 script = ExtResource( 3 )
@@ -58,7 +62,6 @@ transform = Transform( 0.341758, -0.939788, 0, 0.939788, 0.341758, 0, 0, 0, 1, 3
 script = ExtResource( 9 )
 
 [node name="planet" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="CSGSphere" type="CSGSphere" parent="planet"]
 transform = Transform( 0.913299, -0.0762811, 0.400083, 0.0642637, 0.996989, 0.0433897, -0.402188, -0.013917, 0.915452, 0, 0, 0 )
@@ -92,40 +95,6 @@ script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="camera"]
 transform = Transform( -0.989681, 0, -0.143285, 0, 1, 0, 0.143285, 0, -0.989681, -0.524644, 0.631394, -4 )
-
-[node name="question_arrows" type="Node2D" parent="."]
-position = Vector2( 245, 151 )
-
-[node name="ArrowRight" type="Sprite" parent="question_arrows"]
-position = Vector2( 200, 325 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 5 )
-
-[node name="ArrowUp" type="Sprite" parent="question_arrows"]
-position = Vector2( 525, 125 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 8 )
-
-[node name="ArrowDown" type="Sprite" parent="question_arrows"]
-position = Vector2( 525, 604 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 6 )
-offset = Vector2( 0, 100 )
-
-[node name="ArrowLeft" type="Sprite" parent="question_arrows"]
-position = Vector2( 830, 325 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 7 )
-
-[node name="KeyD" type="Sprite" parent="question_arrows"]
-position = Vector2( 199, 326 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 12 )
-
-[node name="KeyC" type="Sprite" parent="question_arrows"]
-position = Vector2( 830, 323 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 13 )
 
 [node name="Text" type="Label" parent="."]
 anchor_left = 0.5
@@ -186,10 +155,12 @@ __meta__ = {
 }
 
 [node name="Coop" type="Label" parent="Text"]
-margin_left = 496.475
-margin_top = 362.838
-margin_right = 649.476
-margin_bottom = 400.838
+anchor_left = -0.519
+anchor_right = -0.519
+margin_left = 771.373
+margin_top = 344.787
+margin_right = 924.374
+margin_bottom = 382.787
 custom_fonts/font = SubResource( 7 )
 text = "Cooperate"
 __meta__ = {
@@ -197,10 +168,14 @@ __meta__ = {
 }
 
 [node name="Defect" type="Label" parent="Text"]
-margin_left = -117.838
-margin_top = 360.291
-margin_right = 35.162
-margin_bottom = 398.291
+anchor_left = 0.32
+anchor_top = 3.5
+anchor_right = 0.32
+anchor_bottom = 3.5
+margin_left = -264.0
+margin_top = -2.0
+margin_right = -151.0
+margin_bottom = 44.0
 custom_fonts/font = SubResource( 7 )
 text = "Defect"
 __meta__ = {
@@ -208,30 +183,57 @@ __meta__ = {
 }
 
 [node name="movechoice" type="Label" parent="Text"]
-margin_left = -105.656
-margin_top = 361.274
-margin_right = 47.344
-margin_bottom = 399.274
+anchor_left = -0.515
+anchor_right = -0.515
+margin_left = 163.83
+margin_top = 343.5
+margin_right = 245.83
+margin_bottom = 394.5
 custom_fonts/font = SubResource( 7 )
 text = "Move"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="actionchoice" type="Label" parent="Text"]
-margin_left = 520.84
-margin_top = 364.805
-margin_right = 673.84
-margin_bottom = 402.805
+anchor_left = -0.515
+anchor_right = -0.515
+margin_left = 772.787
+margin_top = 342.468
+margin_right = 889.787
+margin_bottom = 385.468
 custom_fonts/font = SubResource( 7 )
 text = "Action"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="total_score" type="RichTextLabel" parent="Text"]
 anchor_left = 1.0
 anchor_top = 0.7
 anchor_right = 1.0
 anchor_bottom = 0.7
-margin_right = 100.0
-margin_bottom = 100.0
+margin_left = 70.0
+margin_top = -146.3
+margin_right = 414.0
+margin_bottom = -72.3
 custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/mono_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="current_score" type="RichTextLabel" parent="Text"]
+anchor_left = 1.0
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.7
+margin_left = 69.5849
+margin_top = 2.61253
+margin_right = 518.585
+margin_bottom = 76.6125
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -251,19 +253,98 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="current_score" type="RichTextLabel" parent="Text"]
-anchor_left = 1.2
-anchor_top = 0.7
-anchor_right = 1.5
-anchor_bottom = 0.7
-margin_left = 50.0
-margin_bottom = 100.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/mono_font = SubResource( 10 )
-
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
+[node name="center" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -12.0
+margin_right = 28.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="question_arrows" type="Node2D" parent="center"]
+position = Vector2( 1, 0 )
+
+[node name="ArrowRight" type="Sprite" parent="center/question_arrows"]
+position = Vector2( -295, 20 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 5 )
+
+[node name="ArrowUp" type="Sprite" parent="center/question_arrows"]
+position = Vector2( 17, -147 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 8 )
+
+[node name="ArrowDown" type="Sprite" parent="center/question_arrows"]
+position = Vector2( 17, 324 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 6 )
+offset = Vector2( 0, 100 )
+
+[node name="ArrowLeft" type="Sprite" parent="center/question_arrows"]
+position = Vector2( 312, 20 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 7 )
+
+[node name="KeyD" type="Sprite" parent="center/question_arrows"]
+position = Vector2( -294, 20 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 12 )
+
+[node name="KeyC" type="Sprite" parent="center/question_arrows"]
+position = Vector2( 315, 20 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 13 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 128.0
+margin_top = 92.0
+margin_right = 168.0
+margin_bottom = 132.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 272.0
+margin_bottom = 66.0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 272.0
+margin_bottom = 66.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 265.0
+margin_bottom = 59.0
+
+[node name="Caret" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+margin_top = 19.0
+margin_right = 16.0
+margin_bottom = 33.0
+text = " > "
+
+[node name="NameInput" type="LineEdit" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 20.0
+margin_right = 258.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 17 )
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sounds" type="AudioStreamPlayer" parent="."]
+
+[node name="clapping" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 15 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="text_entered" from="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/NameInput" to="." method="_on_NameInput_text_entered"]
+[connection signal="text_entered" from="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/NameInput" to="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/NameInput" method="_on_NameInput_text_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
