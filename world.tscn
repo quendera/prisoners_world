@@ -309,17 +309,25 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_right = 272.0
-margin_bottom = 66.0
+margin_right = 323.0
+margin_bottom = 157.0
+
+[node name="AskName" type="Label" parent="MarginContainer/VBoxContainer"]
+margin_right = 323.0
+margin_bottom = 87.0
+custom_fonts/font = ExtResource( 17 )
+text = "Type in your name
+and press ENTER:"
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
-margin_right = 272.0
-margin_bottom = 66.0
+margin_top = 91.0
+margin_right = 323.0
+margin_bottom = 157.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 265.0
+margin_right = 316.0
 margin_bottom = 59.0
 
 [node name="Caret" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
