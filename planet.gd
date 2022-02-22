@@ -17,19 +17,23 @@ var good_prob = 0.3
 var params = {'Good':[good_prob,good_prob,good_prob], 'Bad':[1-good_prob,1-good_prob,1-good_prob], 
 'Match':[0.8,0.2,0.5], 'Anti-Match':[0.2,0.8,0.5], 'Random1':[0.5,0.5,0.5], 'Random2':[0.5,0.5,0.5]}
 
+var region_colors = {"Blue": Color(1,0,0), "Red": Color(0,1,0), "Green": Color(0,0,1), "Violet": Color(148/float(255),0,211/float(255)), "Yellow":Color(1,1,0), "Orange":Color(1,float(165)/255,0)}
+
 var last_choice_region = {'Good':NAN, 'Bad':NAN, 'Match':NAN, 'Anti-Match':NAN, 'Random1':NAN, 'Random2':NAN}
 var current_node
 
-var state = 0  #play or move
+var state = 4  #choose:0, play:1 or move:2, other:4, between choice and action:3
 #var position = get_region()
 var can_move = true
 var can_act = true
+var can_input_name = true
 
 var data = {}
 var ID
 var save_file_name
 
 var rng = RandomNumberGenerator.new()
+onready var timer = get_node("Timer")
 
 func draw_n(n):
 	var draw = []
@@ -64,29 +68,45 @@ func get_agent_choices(randnums, prob):
 func _ready():
 	OS.window_fullscreen = true
 	init_file()
-	question()
+	timer.set_wait_time(10*60)#10 minutes
+	$center.visible = false
+	$Text.visible = false
+	initialize_colors()
 	
-
+func initialize_colors():
+	randomize()
+	#var rand_reg_cors=region_colors.values().shuffle()
+	var color_list = region_colors.values()
+	color_list.shuffle()
+	print(color_list)
+	var regions = get_tree().get_nodes_in_group("nodes")
+	for i in regions.size():
+		var material = regions[i].get_material()
+		print(regions[i], color_list[i])
+		material.albedo_color = color_list[i]
+		regions[i].set_material(material)
+	data['region_colors'] = color_list #regions in same order as in  get_tree().get_nodes_in_group("nodes")
 
 func question():
 	state = 0
 	#print("question")
-	$question_arrows.visible = true
+	$center.visible = true
+	$Text.visible = true
+	$center/question_arrows.visible = true
 	$Text/Choice.visible = true
 	$Text/action.visible = false
 	$Text/Move.visible = false
 	$Text/Coop.visible = false
 	$Text/Defect.visible = false
-	$question_arrows/ArrowUp.visible = false
-	$question_arrows/ArrowDown.visible = false
+	$center/question_arrows/ArrowUp.visible = false
+	$center/question_arrows/ArrowDown.visible = false
 	
-	$question_arrows/KeyC.visible = true
-	$question_arrows/KeyD.visible = true
+	$center/question_arrows/KeyC.visible = true
+	$center/question_arrows/KeyD.visible = true
 	
-	$Text/total_score.push_color(Color(0,0,0,1))
 	$Text/total_score.add_text("Total score: 0")
 	$Text/current_score.push_color(Color(0,0,0,1))
-	$Text/current_score.add_text("Score: 0")
+	#$Text/current_score.add_text("Score from last PLAY: 0")
 	
 
 func play(ID):
@@ -102,10 +122,10 @@ func play(ID):
 	#let player take action
 	$Text/Coop.visible = true
 	$Text/Defect.visible = true
-	$question_arrows/ArrowUp.visible = false
-	$question_arrows/ArrowDown.visible = false
-	$question_arrows/KeyC.visible = true
-	$question_arrows/KeyD.visible = true
+	$center/question_arrows/ArrowUp.visible = false
+	$center/question_arrows/ArrowDown.visible = false
+	$center/question_arrows/KeyC.visible = true
+	$center/question_arrows/KeyD.visible = true
 	
 	yield(get_tree().create_timer(.3), "timeout")
 	state = 2
@@ -181,17 +201,17 @@ func move(ID):
 	save_data(1,  get_region(), 0, -1) #choice, pos, rew, agent_choice
 	state = 1
 	#current_node = 
-	$question_arrows/KeyC.visible = false
-	$question_arrows/KeyD.visible = false
+	$center/question_arrows/KeyC.visible = false
+	$center/question_arrows/KeyD.visible = false
 	$Text/Move.visible = true
 	$Text/Choice.visible = false
 	$Text/movechoice.visible = false
 	$Text/actionchoice.visible = false
 	
-	$question_arrows/ArrowLeft.visible = true
-	$question_arrows/ArrowRight.visible = true
-	$question_arrows/ArrowUp.visible = true
-	$question_arrows/ArrowDown.visible = true
+	$center/question_arrows/ArrowLeft.visible = true
+	$center/question_arrows/ArrowRight.visible = true
+	$center/question_arrows/ArrowUp.visible = true
+	$center/question_arrows/ArrowDown.visible = true
 	
 	$Text/agents.add_text("")
 	
@@ -213,17 +233,14 @@ func move(ID):
 	yield(get_tree().create_timer(.1), "timeout")
 	
 	$Text/Move.visible = false
-	$question_arrows/ArrowUp.visible = false
-	$question_arrows/ArrowDown.visible = false
+	$center/question_arrows/ArrowUp.visible = false
+	$center/question_arrows/ArrowDown.visible = false
 	$Text/action.visible = false
 	$Text/Choice.visible = true
 	$Text/movechoice.visible = true
 	$Text/actionchoice.visible = true
-	$question_arrows/KeyC.visible = true
-	$question_arrows/KeyD.visible = true
-	
-	$Text/current_score.push_color(Color(0,0,0,1))
-	$Text/total_score.push_color(Color(0,0,0,1))
+	$center/question_arrows/KeyC.visible = true
+	$center/question_arrows/KeyD.visible = true
 	
 
 
@@ -242,17 +259,13 @@ func get_region():
 	return(current_node)
 
 func _input(event):
-	#print(event, state)
 	old_pos = $planet.get_rotation_degrees()
-	$Text/current_score.push_color(Color(0,0,0,1))
-	$Text/total_score.push_color(Color(0,0,0,1))
 	#print(get_region())
-	if event is InputEventKey and Input.is_key_pressed(KEY_0):
-		#print("save")
+	if event is InputEventKey and Input.is_key_pressed(KEY_ESCAPE):
 		end_task()
 	
 	if (event is InputEventKey) and (state == 0): #QUESTIONS
-		#$question_arrows.visible = false
+		#$center/question_arrows.visible = false
 		ID = OS.get_ticks_msec()
 		if event.scancode == KEY_C:
 			state = 3
@@ -312,14 +325,32 @@ func _input(event):
 		#how to change color accordingly?
 		#var color = Color(position)
 		#$Text/agents.push_color(color)
-		$Text/total_score.text = "Total score:" + str(data['total_score'][-1]+reward)
-		#$Text/current_score.push_color(Color(0,0,0,1))
-		$Text/current_score.text = "Score:" + str(reward)
+		$Text/current_score.clear()
+		if reward < 0:
+			$Text/current_score.append_bbcode("[color=#FF0000]" + "Score from last PLAY: " + str(reward) + "[/color]")
+		elif reward > 0: #positive
+			$Text/current_score.append_bbcode("[color=#006400]" + "Score from last PLAY: " + str(reward) + "[/color]")
+			#$Sounds/clapping.play(2)
+			#$Sounds/clapping.stop()
+		else:
+			$Text/current_score.append_bbcode("[color=#FFFFFF]" + "Score from last PLAY: " + str(reward) + "[/color]")
+		$Text/total_score.text = "Total score: " + str(data['total_score'][-1] + reward)
 		
 		#print(choice+2)
 		save_data(choice+2, position, reward, agent_choices)
 		last_choice_region[position] = choice
 		can_act = true
+
+func _on_NameInput_text_entered(new_text: String) -> void:
+	var edit = $MarginContainer/VBoxContainer/PanelContainer/HBoxContainer/NameInput
+	question()
+	state = 0
+	timer.start()
+	if can_input_name:
+		data["subj_id"] = edit.get_text()
+	$MarginContainer/VBoxContainer.visible = false
+	can_input_name = false
+	
 
 func init_file():
 	ID = OS.get_unix_time()
@@ -342,6 +373,7 @@ func init_file():
 		#session metadata
 		"subj_id":[],
 		"starting_location":[],
+		"region_colors":[],
 		"version":[1.0],
 		"start_time":[ID]
 	}
@@ -372,9 +404,10 @@ func save_data(choice, position, reward, agent_choices):
 func end_task():
 	#print("saving..")
 	var file = File.new()
-	file.open(str("ser://PrisonersWorld_", save_file_name, ".json"), file.WRITE)
+	file.open(str("res://PrisonersWorld_", save_file_name, ".json"), file.WRITE)
 	file.store_line(to_json(data))
 	file.close()
+	get_tree().quit()
 
 
 
@@ -383,3 +416,7 @@ func end_task():
 #	pass
 
 
+
+
+func _on_Timer_timeout() -> void:
+	end_task()
