@@ -1,1 +1,0 @@
-{"agent_choices":[nan,[0,1,1,0,1],nan,[0,1,1,1,1],nan,nan,nan],"choice":[0,3,0,3,1,nan,0],"decision_time":[1645097392,1645097393,1645097393,1645097395,1645097395,1645097396,1645097397],"expected_score":[],"position":[null,null,null,null,null,null,null],"score":[nan,30,nan,40,nan,0,nan],"start_time":[1645097380],"subj_id":[],"trial":[0,1,2,3,4,5,6],"version":[]}
