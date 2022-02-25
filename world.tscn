@@ -80,7 +80,7 @@ script = ExtResource( 3 )
 environment = ExtResource( 1 )
 
 [node name="sun" type="DirectionalLight" parent="WorldEnvironment"]
-transform = Transform( 0.341758, -0.939788, 0, 0.939788, 0.341758, 0, 0, 0, 1, 3.4631, 1.0819, -4.16805 )
+transform = Transform( -0.330024, -0.117951, 0.936574, 0.881939, 0.315207, 0.350469, -0.336553, 0.941665, -4.0939e-08, 3.4631, 1.0819, -4.16805 )
 script = ExtResource( 9 )
 
 [node name="planet" type="Spatial" parent="."]
